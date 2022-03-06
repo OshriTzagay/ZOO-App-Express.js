@@ -6,7 +6,8 @@ dotenv.config();
 const express = require("express");
 require("./DB");
 const animalsRouter = require("./Routes/animal-route");
-const employeeRouter= require('./Routes/employees-route')
+const employeesRouter= require('./Routes/employees-route');
+const usersRouter = require('./Routes/users-route');
 const cors =require('cors');
 const app = express();
 const port = process.env.PORT || 8000;
@@ -16,7 +17,8 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 app.use("/animals", animalsRouter);
-app.use("/employee", employeeRouter);
+app.use("/emp", employeesRouter);
+app.use("/users",usersRouter)
 
 
 //!-->USES<--//
