@@ -8,19 +8,21 @@ require("./DB");
 const animalsRouter = require("./Routes/animal-route");
 const employeesRouter= require('./Routes/employees-route');
 const usersRouter = require('./Routes/users-route');
+const passport = require("passport");
+require("./Config/passport")(passport);
+
 const cors =require('cors');
 const app = express();
 const port = process.env.PORT || 8000;
 //!-->Requires<--
 
 //!-->USES<--//
-app.use(express.json());
 app.use(cors());
-app.use("/animals", animalsRouter);
-app.use("/emp", employeesRouter);
+app.use(express.json());
+app.use(passport.initialize());
+app.use("/animals",  passport.authenticate("jwt", { session: false }), animalsRouter);
+app.use("/emp",  passport.authenticate("jwt", { session: false }), employeesRouter);
 app.use("/users",usersRouter)
-
-
 //!-->USES<--//
 
 
@@ -30,6 +32,6 @@ app.listen(port, (err, result) => {
 });
 
 //---> For Now Starting The Server with GET to get Reaction.
-app.get("/", (req, res) => {
-  res.send("WELCOME TO THE ZOO");
-});
+// app.get("/", (req, res) => {
+//   res.send("WELCOME TO THE ZOO");
+// });
